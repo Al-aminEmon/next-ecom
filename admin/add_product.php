@@ -1,3 +1,4 @@
+
 <?php include("partials/menu.php");?>
 
     <!-- Mein Content section Start -->
@@ -106,14 +107,14 @@
                     <tr>
                         <td>Active:</td>
                         <td>
-                        <input type="radio" name="Active" value="Yes">Yes
-                        <input type="radio" name="Active" value="No">No
+                        <input type="radio" name="active" value="Yes">Yes
+                        <input type="radio" name="active" value="No">No
                         </td>
                     </tr>
 
                     <tr>
                         <td colspen = "2">
-                            <input type="submit" name="submit" value="Add Food" class="btn-secondary">
+                            <input type="submit" name="submit" value="Add Product" class="btn-secondary">
                         </td>
                     </tr>
                 </table>
@@ -203,16 +204,16 @@
 
                     //3.Insert into Database
 
-                    //Create a Sql Query to Save or Add food 
+                    //Create a Sql Query to Save or Add Product 
                     //for a num valo we do not need ''/"".
                     $sql2 = "INSERT INTO tbl_product SET
-                    title = '$title',
-                    description = '$description',
-                    price = $price,
-                    image_name = '$image_name',
-                    category_id = $category,
-                    featured = '$featured',
-                    active = '$active'
+                        title = '$title',
+                        description = '$description',
+                        price = $price,
+                        image_name = '$image_name',
+                        category_id = $category,
+                        featured = '$featured',
+                        active = '$active'
                     ";
 
                     // exicuted the query
@@ -220,14 +221,17 @@
 
                     // Check whether data inserted or not
                     // 4.Redirect With Message To Manage Food page 
-                    if ($res2) {
+                    if ($res2==true) 
+                    {
                         ///Data inserted Successfully
                         $_SESSION['add'] = "<div class='success'>Product Added Successfully.</div>";
-                        header('location: ' . SITEURL . 'admin/manage_product.php');
-                    } else {
+                        header('location:'.SITEURL.'admin/manage_product.php');
+                    }
+                    else 
+                    {
                         ///Failed to insert Data 
-                        $_SESSION['add'] = "<div class='error'>Failed to Add Product. Error: " . mysqli_error($conn) . "</div>";
-                        header('location: ' . SITEURL . 'admin/manage_product.php');
+                        $_SESSION['add'] = "<div class='error'>Failed to Add Product.</div>";
+                        header('location:'.SITEURL.'admin/manage_product.php');
                     }
                     
                 }
