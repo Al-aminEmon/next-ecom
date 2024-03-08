@@ -114,7 +114,7 @@
 
                         $source_path =$_FILES['image']['tmp_name'];
 
-                        $destination_path ="../assets/imgs/category/".$image_name;
+                        $destination_path ="assets/imgs/product".$image_name;
 
                         // Finaly Upload the Image 
                         $upload = move_uploaded_file($source_path, $destination_path);
