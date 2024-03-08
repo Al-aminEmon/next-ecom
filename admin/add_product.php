@@ -1,4 +1,3 @@
-
 <?php include("partials/menu.php");?>
 
     <!-- Mein Content section Start -->
@@ -16,7 +15,7 @@
                 }
             ?>
 
-
+../assets/imgs/product
 
 
             <form action="" method="POST" enctype="multipart/form-data">
@@ -24,14 +23,14 @@
                     <tr>
                         <td>Title:</td>
                         <td>
-                            <input type="text" name="title" placeholder="Title of the Food">
+                            <input type="text" name="title" placeholder="Title of the Product">
                         </td>
                     </tr>
 
                     <tr>
                         <td>Description:</td>
                         <td>
-                            <textarea name="description"  cols="25" rows="5" placeholder="Description of the Food."></textarea>
+                            <textarea name="description"  cols="25" rows="5" placeholder="Description of the Product."></textarea>
                         </td>
                     </tr>
 
@@ -107,13 +106,13 @@
                     <tr>
                         <td>Active:</td>
                         <td>
-                        <input type="radio" name="active" value="Yes">Yes
-                        <input type="radio" name="active" value="No">No
+                            <input type="radio" name="active" value="Yes">Yes
+                            <input type="radio" name="active" value="No">No
                         </td>
                     </tr>
 
                     <tr>
-                        <td colspen = "2">
+                        <td colspan="2">
                             <input type="submit" name="submit" value="Add Product" class="btn-secondary">
                         </td>
                     </tr>
@@ -143,13 +142,14 @@
                         $featured = "No";//Setting the Default Value
                     }
 
+                    // Change this line
                     if(isset($_POST['active']))
                     {
                         $active = $_POST['active'];
                     }
                     else
                     {
-                        $active = "No";//Setting the Default Value
+                        $active = "No"; // Change "no" to "No" to match the default value in the database
                     }
 
                     //2.Upload the image if selected
@@ -164,13 +164,12 @@
                         {
                             //Image is selected 
                             //a. Rename the image
-                            //get the extension of selected image(jpg,png,gif,etc)
+                            // Get the extension of the selected image (jpg, png, gif, etc)
                             $extArray = explode('.', $image_name);
                             $ext = end($extArray);
 
-
+                        
                             //Create New Name for Image
-
                             $image_name = "Nest_Ecommerce_Prod-".rand(000,999).'.'.$ext;//New Image Name May be "Nest_Ecommerce_Prod-122.jpg"
                             
                             //b.Update the Image 
@@ -180,7 +179,7 @@
                             $src = $_FILES['image']['tmp_name'];
 
                             //Destination path for the image to upload
-                            $dst = "../assets/imgs/product/".$image_name;
+                            $dst = "assets/imgs/product/".$image_name; // Remove the extra space before $image_name
                             
                             //Finaly upload the product image
                             $upload = move_uploaded_file($src,$dst);
@@ -189,7 +188,7 @@
                             if($upload==false)
                             {
                                 //Faild to upload the image 
-                                //Redirect to add Food With Error Message
+                                //Redirect to add Product Page With Error Message 
                                 $_SESSION['upload'] = "<div class='error'>Failed to Upload Image.</div>";
                                 header('location:'.SITEURL.'admin/add_product.php');
                                 //Stop the process
@@ -206,7 +205,8 @@
 
                     //Create a Sql Query to Save or Add Product 
                     //for a num valo we do not need ''/"".
-                    $sql2 = "INSERT INTO tbl_product SET
+                    // Code for adding a product
+                    $sqli = "INSERT INTO tbl_product SET
                         title = '$title',
                         description = '$description',
                         price = $price,
@@ -216,22 +216,23 @@
                         active = '$active'
                     ";
 
-                    // exicuted the query
-                    $res2 = mysqli_query($conn, $sql2);
+                    // ... (uploading image and executing the query)
 
-                    // Check whether data inserted or not
-                    // 4.Redirect With Message To Manage Food page 
-                    if ($res2==true) 
-                    {
-                        ///Data inserted Successfully
-                        $_SESSION['add'] = "<div class='success'>Product Added Successfully.</div>";
-                        header('location:'.SITEURL.'admin/manage_product.php');
-                    }
-                    else 
-                    {
-                        ///Failed to insert Data 
+
+                    //3.Exicute the query and save in Database
+                    $res2 = mysqli_query($conn, $sqli);
+
+                    // Check whether the query executed or not and data added or not
+                    if ($res2 == true) {
+                        // Query executed and product added successfully
+                        $_SESSION['add'] = "<div class='succes'>Product Added Successfully.</div>";
+                        // Redirect to Manage Product Page
+                        header('location:'.SITEURL.'admin/manage_Product.php');
+                    } else {
+                        // Failed to add product
                         $_SESSION['add'] = "<div class='error'>Failed to Add Product.</div>";
-                        header('location:'.SITEURL.'admin/manage_product.php');
+                        // Redirect to Manage Product Page
+                        header('location:'.SITEURL.'admin/manage_Product.php');
                     }
                     
                 }
