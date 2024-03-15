@@ -15,8 +15,6 @@
                 }
             ?>
 
-../assets/imgs/product
-
 
             <form action="" method="POST" enctype="multipart/form-data">
                 <table class="tbl-03">
